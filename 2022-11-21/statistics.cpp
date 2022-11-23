@@ -11,7 +11,7 @@ using namespace std;
 int avg(int num, int *arr)
 {
   int i = 0;
-  float sum = 0;
+  double sum = 0;
 
   while (i < num)
   {
@@ -32,23 +32,39 @@ int mid(int num, int *arr)
 
 int mode(int num, int *arr)
 {
-  int *most = new int[num]{};
-  int i, k;
+  int ar[8001] = {0};
+  int i, idx, max = 0, cnt = 0;
 
   for (i = 0; i < num; i++)
   {
-    for (k = 0; k < num; k++)
+    idx = arr[i] + 4000;
+    ar[idx] += 1;
+
+    if (ar[idx] > max)
+      max = ar[idx];
+  }
+
+  for (i = 0, idx = 0; i < 8001; i++)
+  {
+    if (ar[i] == 0)
+      continue;
+
+    if (ar[i] == max)
     {
-      if (arr[i] == arr[k])
+      if (cnt == 0)
       {
-        most[i]++;
+        idx = i;
+        cnt += 1;
+      }
+      else if (cnt == 1)
+      {
+        idx = i;
+        break;
       }
     }
   }
 
-  sort(most, most + num);
-
-  delete[] most;
+  return idx - 4000;
 }
 
 int diff(int num, int *arr)
@@ -68,6 +84,11 @@ int main()
   {
     cin >> arr[i];
   }
+
+  cout << avg(num, arr) << endl;
+  cout << mid(num, arr) << endl;
+  cout << mode(num, arr) << endl;
+  cout << diff(num, arr) << endl;
 
   delete[] arr;
   return 0;
