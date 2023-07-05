@@ -1,71 +1,87 @@
 /*
-* ¹éÁØ ½Ç¹ö4 ±¸Çö ¹®Á¦
-* Áö·Ú Ã£±â
-*/
+ * ë°±ì¤€ ì‹¤ë²„4 êµ¬í˜„ ë¬¸ì œ
+ * ì§€ë¢° ì°¾ê¸°
+ */
 
 #include <iostream>
 using namespace std;
 
-char mines[11][11];
-char clicked[11][11];
-char result[11][11];
-int x[8] = { 0, 0, -1, 1, -1, -1, 1, 1 };   //»ó, ÇÏ, ÁÂ, ¿ì, ¿ÞÂÊ À§, ¿ÞÂÊ ¾Æ·¡, ¿À¸¥ÂÊ À§, ¿À¸¥ÂÊ ¾Æ·¡
-int y[8] = { -1, 1, 0, 0, -1, 1, -1, 1 };
+int N;
+char map[11][11];
+char inp[11][11];
+char out[11][11];
+int dx[8] = {0, 0, -1, 1, -1, -1, 1, 1}; // ìƒ, í•˜, ì¢Œ, ìš°, ì™¼ìª½ ìœ„, ì™¼ìª½ ì•„ëž˜, ì˜¤ë¥¸ìª½ ìœ„, ì˜¤ë¥¸ìª½ ì•„ëž˜
+int dy[8] = {-1, 1, 0, 0, -1, 1, -1, 1};
 
-int main() {
-	int n, i, j;
-	bool isFail = false;
-	int count = 0;
-	cin >> n;
+int func(int x, int y, int cnt)
+{
+	for (int i = 0; i < 8; i++)
+	{
+		int nx = x + dx[i];
+		int ny = y + dy[i];
 
-	// Áö·Ú ºÐÆ÷ ÀÔ·Â
-	for (i = 0; i < n; i++) {
-		for (j = 0; j < n; j++) {
-			cin >> mines[i][j];
-			result[i][j] = '.';
+		if (nx >= 0 && nx < N && ny >= 0 && ny < N)
+			if (map[nx][ny] == '*')
+				cnt++;
+	}
+	return cnt;
+}
+
+int main()
+{
+	bool isFailed = false; // ì§€ë¢°ë¥¼ ë°Ÿì•˜ëŠ”ì§€ ì•ˆë°Ÿì•˜ëŠ”ì§€ í™•ì¸
+	cin >> N;
+
+	for (int i = 0; i < N; i++)
+	{
+		for (int k = 0; k < N; k++)
+		{
+			cin >> map[i][k];
 		}
 	}
 
-	// Å¬¸¯ÇÑ À§Ä¡ ÀÔ·Â
-	for (i = 0; i < n; i++) {
-		for (j = 0; j < n; j++) {
-			cin >> clicked[i][j];
+	for (int i = 0; i < N; i++)
+	{
+		for (int k = 0; k < N; k++)
+		{
+			cin >> inp[i][k];
+		}
+	}
 
-			// Áö·Ú°¡ ÀÖ´Â °÷À» Å¬¸¯ÇÑ °æ¿ì
-			if (clicked[i][j] == 'x' && mines[i][j] == '*') {
-				isFail = true;
+	for (int i = 0; i < N; i++)
+	{
+		for (int k = 0; k < N; k++)
+		{
+			if (inp[i][k] == 'x')
+			{
+				int cnt = func(i, k, 0);
+				out[i][k] = cnt + '0';
+				if (map[i][k] == '*')
+					isFailed = true; // ì§€ë¢°ë¥¼ ë°ŸìŒ.
 			}
-			else if (clicked[i][j] == 'x' && mines[i][j] == '.') {
-				for (int k = 0; k < 8; k++) {                        // 8°¡Áö ¹æÇâ¿¡ Áö·Ú°¡ ÀÖ´ÂÁö °Ë»ç
-					int tempX = i + x[k];
-					int tempY = j + y[k];
+			else if (inp[i][k] == '.')
+				out[i][k] = '.';
+		}
+	}
 
-					if (tempX >= 0 && tempX < n && tempY >= 0 && tempY < n) {   // ¹è¿­ Å©±â¸¦ ³ÑÁö ¾Ê´Â ¿µ¿ªÀÎÁö °Ë»ç
-						if (mines[tempX][tempY] == '*')                        // Áö·Ú°¡ ÀÖ´Ù¸é Ä«¿îÆ® Áõ°¡
-							count++;
-					}
-				}
-
-				result[i][j] = count + '0';
-				count = 0;
+	if (isFailed)
+	{
+		for (int i = 0; i < N; i++)
+		{
+			for (int k = 0; k < N; k++)
+			{
+				if (map[i][k] == '*')
+					out[i][k] = '*';
 			}
 		}
 	}
 
-	if (isFail) {
-		for (i = 0; i < n; i++) {
-			for (j = 0; j < n; j++) {
-				cout << "*";
-			}
-			cout << endl;
+	for (int i = 0; i < N; i++)
+	{
+		for (int k = 0; k < N; k++)
+		{
+			cout << out[i][k];
 		}
-	}
-	else {
-		for (i = 0; i < n; i++) {
-			for (j = 0; j < n; j++) {
-				cout << result[i][j];
-			}
-			cout << endl;
-		}
+		cout << '\n';
 	}
 }
