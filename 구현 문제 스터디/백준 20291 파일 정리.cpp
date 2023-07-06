@@ -1,36 +1,39 @@
 /*
-* ¹éÁØ ½Ç¹ö3 ±¸Çö ¹®Á¦
-* ÆÄÀÏ Á¤¸®
-*/
+ * ë°±ì¤€ ì‹¤ë²„3 êµ¬í˜„ ë¬¸ì œ
+ * íŒŒì¼ ì •ë¦¬
+ */
 
 #include <iostream>
 #include <string>
 #include <algorithm>
 using namespace std;
 
-int main(void) {
+int main(void)
+{
 	int fNum, i;
 	cin >> fNum;
-	
-	string* fNames = new string[fNum];   // ÆÄÀÏ ÀÌ¸§
-	string* fExt = new string[fNum];     // È®ÀåÀÚ
+
+	string *fNames = new string[fNum]; // íŒŒì¼ ì´ë¦„
+	string *fExt = new string[fNum];	 // í™•ì¥ì
 	for (i = 0; i < fNum; i++)
 		cin >> fNames[i];
 
 	int count = 1;
 	int idx;
-	
-	// È®ÀåÀÚ ºĞ¸®ÇØ¼­ ÀúÀå
-	for (i = 0; i < fNum; i++) {
-		idx = fNames[i].find(".", 3) + 1;
+
+	// í™•ì¥ì ë¶„ë¦¬í•´ì„œ ì €ì¥
+	for (i = 0; i < fNum; i++)
+	{
+		idx = fNames[i].find(".") + 1;
 		fExt[i] = fNames[i].substr(idx);
-		
 	}
 
-	// È®ÀåÀÚ string Á¤·Ä
+	// í™•ì¥ì string ì •ë ¬
 	sort(fExt, fExt + fNum);
-	for (i = 1; i < fNum; i++) {
-		if (fExt[i] != fExt[i - 1]) {
+	for (i = 1; i < fNum; i++)
+	{
+		if (fExt[i] != fExt[i - 1])
+		{
 			cout << fExt[i - 1] << " " << count << endl;
 			count = 1;
 			continue;
