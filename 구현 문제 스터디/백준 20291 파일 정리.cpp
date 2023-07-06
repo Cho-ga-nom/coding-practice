@@ -10,6 +10,11 @@ using namespace std;
 
 int main(void)
 {
+	// cin과 scanf, cout과 printf의 버러 동기화를 끊어주어서 빠른 입출력을 가능하게 함
+	cin.tie(0);
+	cout.tie(0);
+	ios::sync_with_stdio(0);
+
 	int fNum, i;
 	cin >> fNum;
 
