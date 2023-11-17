@@ -11,18 +11,6 @@ bool Attackable(int r1, int c1, int r2, int c2) {
 	else return false;
 }
 
-bool Check() {
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < N; j++) {
-			if (Attackable(i, map[i], j, map[j])) {
-				return false;
-			}
-		}
-	}
-
-	return true;
-}
-
 void Recursive(int row) {
 	if (row == N) {       // 마지막 행까지 돌았으면 공격할 수 없는지 검사
 		ans++;
